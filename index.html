@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -5,71 +6,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>تجربة الواقع المعزز</title>
   <style>
-    body { margin: 0; overflow: hidden; background-color: #090d16; }
-    model-viewer { width: 100vw; height: 100vh; }
+    body { margin: 0; overflow: hidden; background-color: #090d16; color: white; font-family: Arial, sans-serif; }
     
-    /* ستايل زر الموسيقى */
-    #music-btn {
+    /* شاشة البداية (الزر الكبير) */
+    #start-screen {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-color: #090d16;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #start-btn {
       background-color: #ff4545;
       color: white;
       border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 30px;
+      border-radius: 50px;
+      padding: 20px 50px;
+      font-size: 24px;
+      font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 10px 25px rgba(255, 69, 69, 0.5);
+      animation: pulse 1.5s infinite;
     }
-    #music-btn:hover { background-color: #cc0000; }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    #start-btn:active { background-color: #cc0000; }
+
+    model-viewer { width: 100vw; height: 100vh; }
   </style>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </head>
 <body>
 
-  <!-- عنصر الصوت (الموسيقى) -->
+  <!-- شاشة البداية -->
+  <div id="start-screen">
+    <h1>تجربة الواقع المعزز</h1>
+    <p>رائد الفضاء في غرفتك 🚀</p>
+    <button id="start-btn" onclick="startExperience()">🚀 ابدأ التجربة</button>
+  </div>
+
+  <!-- عنصر الصوت -->
   <audio id="bg-music" loop>
-    <!-- هنا نحطوا رابط ملف الموسيقى (لازم ترفعو في GitHub) -->
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- زر تشغيل/إيقاف الموسيقى -->
-  <button id="music-btn" onclick="toggleMusic()">🎵</button>
-
   <!-- الموديل -->
   <model-viewer 
-    src="model.glb" 
+    id="model"
+    src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
     alt="مجسم ثلاثي الأبعاد"
     ar 
     ar-modes="webxr scene-viewer quick-look"
     camera-controls 
     touch-action="pan-y"
     shadow-intensity="1"
-    autoplay
-    animation-name="Idle"
-    auto-rotate
-    rotation-per-second="30deg"
     poster="">
+    <button id="ar-button" slot="ar-button">🚀 شاهد في غرفتك</button>
   </model-viewer>
 
   <script>
-    // دالة تشغيل وإيقاف الموسيقى
-    function toggleMusic() {
+    function startExperience() {
+      // 1. نخبيو شاشة البداية
+      document.getElementById('start-screen').style.display = 'none';
+
+      // 2. نشغلو الموسيقى
       const music = document.getElementById('bg-music');
-      const btn = document.getElementById('music-btn');
-      
-      if (music.paused) {
-        music.play();
-        btn.innerHTML = '⏸️'; // تغيير الأيقونة للإيقاف
-      } else {
-        music.pause();
-        btn.innerHTML = '🎵'; // تغيير الأيقونة للتشغيل
+      music.play();
+
+      // 3. نحاولو ندخلو للـ AR مباشرة (إذا مدعوم)
+      const modelViewer = document.getElementById('model');
+      if (modelViewer.canActivateAR) {
+        modelViewer.activateAR(); // تفتح الكاميرا دغيا!
       }
     }
   </script>
