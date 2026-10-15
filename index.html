@@ -17,6 +17,8 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      text-align: center;
+      padding: 20px;
     }
     #start-btn {
       background-color: #ff4545;
@@ -28,9 +30,11 @@
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 10px 25px rgba(255, 69, 69, 0.5);
+      margin-top: 20px;
     }
+    #start-btn:active { background-color: #cc0000; }
 
-    /* زر الموسيقى للرجوع */
+    /* زر الموسيقى */
     #music-btn {
       position: absolute;
       bottom: 20px;
@@ -56,22 +60,22 @@
   <!-- شاشة البداية -->
   <div id="start-screen">
     <h1>تجربة الواقع المعزز</h1>
-    <p>رائد الفضاء في غرفتك 🚀</p>
+    <p>شاهد المجسم في غرفتك 🚀</p>
     <button id="start-btn" onclick="startExperience()">🚀 ابدأ التجربة</button>
   </div>
 
-  <!-- عنصر الصوت -->
+  <!-- عنصر الصوت (تأكد إنو ملف music.mp3 مرفوع في GitHub) -->
   <audio id="bg-music" loop>
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- زر الموسيقى (يظهر كي ترجع من الـ AR) -->
+  <!-- زر الموسيقى -->
   <button id="music-btn" onclick="toggleMusic()">🎵</button>
 
-  <!-- الموديل -->
+  <!-- الموديل متاعك (model.glb) -->
   <model-viewer 
     id="model"
-    src="model.glb"
+    src="model.glb" 
     alt="مجسم ثلاثي الأبعاد"
     ar 
     ar-modes="webxr scene-viewer quick-look"
@@ -79,6 +83,8 @@
     touch-action="pan-y"
     shadow-intensity="1"
     poster="">
+    <!-- زر احتياطي للـ AR إذا ما خدمش الزر التلقائي -->
+    <button id="ar-button" slot="ar-button" style="position:absolute; bottom:20px; right:20px; background:#ff4545; color:white; border:none; border-radius:25px; padding:12px 24px; font-size:16px; font-weight:bold;">🚀 شاهد في غرفتك</button>
   </model-viewer>
 
   <script>
@@ -90,9 +96,9 @@
 
       // 3. نشغلو الموسيقى
       const music = document.getElementById('bg-music');
-      music.play().catch(e => console.log("الموسيقى محتاجة ضغطة"));
+      music.play().catch(e => console.log("الموسيقى محتاجة ضغطة من المستخدم"));
 
-      // 4. نفتحوا الكاميرا دغيا
+      // 4. نفتحوا الكاميرا دغيا (إذا التيليفون يدعم AR)
       const modelViewer = document.getElementById('model');
       if (modelViewer.canActivateAR) {
         modelViewer.activateAR(); 
