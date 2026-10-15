@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تجربة الواقع المعزز</title>
+  <style>
+    body { margin: 0; }
+    model-viewer { width: 100vw; height: 100vh; background-color: #090d16; }
+  </style>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+  <model-viewer 
+    src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+    alt="مجسم ثلاثي الأبعاد"
+    ar 
+    ar-modes="webxr scene-viewer quick-look"
+    camera-controls 
+    touch-action="pan-y"
+    shadow-intensity="1"
+    poster="">
+  </model-viewer>
+</body>
+</html>
