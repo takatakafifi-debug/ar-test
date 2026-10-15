@@ -5,12 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>تجربة الواقع المعزز</title>
   <style>
-    body { margin: 0; }
-    model-viewer { width: 100vw; height: 100vh; background-color: #090d16; }
+    body { margin: 0; overflow: hidden; background-color: #090d16; }
+    model-viewer { width: 100vw; height: 100vh; }
+    
+    /* ستايل زر الموسيقى */
+    #music-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff4545;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #music-btn:hover { background-color: #cc0000; }
   </style>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </head>
 <body>
+
+  <!-- عنصر الصوت (الموسيقى) -->
+  <audio id="bg-music" loop>
+    <!-- هنا نحطوا رابط ملف الموسيقى (لازم ترفعو في GitHub) -->
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- زر تشغيل/إيقاف الموسيقى -->
+  <button id="music-btn" onclick="toggleMusic()">🎵</button>
+
+  <!-- الموديل -->
   <model-viewer 
     src="model.glb" 
     alt="مجسم ثلاثي الأبعاد"
@@ -19,7 +51,28 @@
     camera-controls 
     touch-action="pan-y"
     shadow-intensity="1"
+    autoplay
+    animation-name="Idle"
+    auto-rotate
+    rotation-per-second="30deg"
     poster="">
   </model-viewer>
+
+  <script>
+    // دالة تشغيل وإيقاف الموسيقى
+    function toggleMusic() {
+      const music = document.getElementById('bg-music');
+      const btn = document.getElementById('music-btn');
+      
+      if (music.paused) {
+        music.play();
+        btn.innerHTML = '⏸️'; // تغيير الأيقونة للإيقاف
+      } else {
+        music.pause();
+        btn.innerHTML = '🎵'; // تغيير الأيقونة للتشغيل
+      }
+    }
+  </script>
+
 </body>
 </html>
